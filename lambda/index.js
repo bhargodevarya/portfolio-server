@@ -28,6 +28,5 @@ exports.handler = async (event) => {
 //   });
 const response = JSON.parse(s3Response.Body.toString())
   console.log("Returning response", response)
-  return response.portfolio.map(it => it.organization)
-  //return s3Response.Body.toString();
+  return response;
 };
