@@ -9,10 +9,6 @@ AWS.config.update({ region: "us-east-1" });
 s3 = new AWS.S3();
 
 exports.handler = async (event) => {
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify("Hello from Lambda!"),
-  };
 
   var bucketParams = {
     Bucket: "portfolio-data-bucket",
@@ -30,6 +26,8 @@ exports.handler = async (event) => {
 //       s3Response = data.Body.toString()
 //     }
 //   });
-  console.log("Returning response", s3Response)
-  return s3Response.Body.toString();
+const response = JSON.parse(s3Response.Body.toString())
+  console.log("Returning response", response)
+  return response.portfolio.map(it => it.organization)
+  //return s3Response.Body.toString();
 };
