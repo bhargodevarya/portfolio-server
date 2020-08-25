@@ -1,0 +1,1 @@
+Lambda function to get the portfolio details
