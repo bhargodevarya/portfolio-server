@@ -9,7 +9,6 @@ AWS.config.update({ region: "us-east-1" });
 s3 = new AWS.S3();
 
 exports.handler = async (event) => {
-
   var bucketParams = {
     Bucket: "portfolio-data-bucket",
     Key: "portfolio.json",
@@ -18,15 +17,22 @@ exports.handler = async (event) => {
   var s3Response = await s3.getObject(bucketParams).promise();
 
   // Call S3 to obtain a list of the objects in the bucket
-//   await s3.getObject(bucketParams, function (err, data) {
-//     if (err) {
-//       console.log("Error", err);
-//     } else {
-//       console.log("Success", data.Body.toString());
-//       s3Response = data.Body.toString()
-//     }
-//   });
-const response = JSON.parse(s3Response.Body.toString())
-  console.log("Returning response", response)
+  //   await s3.getObject(bucketParams, function (err, data) {
+  //     if (err) {
+  //       console.log("Error", err);
+  //     } else {
+  //       console.log("Success", data.Body.toString());
+  //       s3Response = data.Body.toString()
+  //     }
+  //   });
+  const portfolios = JSON.parse(s3Response.Body.toString());
+  const response = {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: s3Response.Body.toString(),
+  };
+  console.log("Returning response", response);
   return response;
 };
